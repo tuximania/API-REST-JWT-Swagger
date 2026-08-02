@@ -1,0 +1,22 @@
+# Node dependencies
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Build output
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Ignore generated or local-only skill documentation
+API REST con JWT y Swagger.skill.md

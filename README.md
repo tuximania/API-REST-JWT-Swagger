@@ -1,23 +1,32 @@
 # API-REST-JWT-Swagger
 
 ## Descripción
-Proyecto inicial para una API REST de reservas de restaurante con autenticación JWT, roles (Cliente/Admin) y documentación Swagger.
+API REST para un sistema de reservas de restaurante con autenticación JWT, roles de Cliente/Admin, PostgreSQL y documentación Swagger.
+
+## Estado actual
+La API ya incluye:
+- registro e inicio de sesión con JWT
+- protección de rutas mediante middleware
+- manejo de mesas
+- creación y consulta de reservaciones
+- validación de capacidad de mesa
+- documentación Swagger en `/api-docs`
 
 ## Estructura del proyecto
 - `src/`
   - `app.js` — configuración principal de Express.
   - `server.js` — arranque del servidor.
   - `routes/` — rutas de `auth`, `mesas` y `reservaciones`.
-  - `controllers/` — controladores con la lógica de negocio inicial.
-  - `middlewares/` — middleware de autenticación y control de roles.
+  - `controllers/` — lógica real de autenticación, mesas y reservaciones.
+  - `middlewares/` — validación JWT y control de roles.
   - `swagger.js` — configuración de Swagger UI.
-- `database/schema.sql` — esquema inicial de la base de datos.
+- `database/schema.sql` — esquema y seed inicial para PostgreSQL.
 - `.env.example` — variables de entorno de ejemplo.
 - `.gitignore` — exclusiones del repositorio.
 
 ## Requisitos
-- Node.js 18+ instalado.
-- PostgreSQL u otra base de datos compatible para crear el esquema.
+- Node.js 18+
+- PostgreSQL con una base llamada `restaurante`
 
 ## Instalación
 1. Clona el repositorio:
@@ -31,43 +40,46 @@ Proyecto inicial para una API REST de reservas de restaurante con autenticación
    ```
 3. Crea el archivo de entorno:
    ```bash
-   cp .env.example .env
+   copy .env.example .env
    ```
-4. Ajusta los valores en `.env` según tu base de datos y configuración.
-5. Crea la base de datos y ejecuta `database/schema.sql`.
+4. Ajusta `.env` si necesitas otra URL de conexión o puerto.
+5. Crea la base de datos y aplica el esquema:
+   ```bash
+   psql -h localhost -U postgres -d restaurante -f database/schema.sql
+   ```
 
-## Uso
-- Ejecutar en modo desarrollo:
+## Ejecución
+- Desarrollo:
   ```bash
   npm run dev
   ```
-- Ejecutar en modo producción:
+- Producción:
   ```bash
   npm start
   ```
 
-## Endpoints básicos
-- `POST /api/auth/register` — registrar usuario cliente.
-- `POST /api/auth/login` — iniciar sesión y obtener JWT.
-- `GET /api/auth/perfil` — obtener datos del usuario autenticado.
-- `GET /api/mesas` — listar mesas.
-- `GET /api/mesas/:id` — detalle de mesa.
-- `POST /api/mesas` — crear mesa (Admin).
-- `PUT /api/mesas/:id` — actualizar mesa (Admin).
-- `DELETE /api/mesas/:id` — desactivar mesa (Admin).
-- `POST /api/reservaciones` — crear reservación.
-- `GET /api/reservaciones/mis` — reservaraciones del usuario.
-- `GET /api/reservaciones` — listar todas las reservaciones (Admin).
-- `PUT /api/reservaciones/:id/estado` — cambiar estado (Admin).
-- `DELETE /api/reservaciones/:id` — cancelar reservación.
+## Endpoints principales
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/perfil`
+- `GET /api/mesas`
+- `GET /api/mesas/:id`
+- `POST /api/mesas` (Admin)
+- `PUT /api/mesas/:id` (Admin)
+- `DELETE /api/mesas/:id` (Admin)
+- `POST /api/reservaciones`
+- `GET /api/reservaciones/mis`
+- `GET /api/reservaciones` (Admin)
+- `PUT /api/reservaciones/:id/estado` (Admin)
+- `DELETE /api/reservaciones/:id`
 
 ## Documentación Swagger
-Después de iniciar el servidor, la documentación estará disponible en:
+La documentación interactiva queda disponible en:
 
-```
+```text
 http://localhost:4000/api-docs
 ```
 
 ## Notas
-- El archivo `API REST con JWT y Swagger.skill.md` se ignora y no debe subirse al repositorio.
-- Este proyecto es una plantilla inicial; los controladores deben completarse con la lógica real de base de datos y validación.
+- El archivo del skill se mantiene local y no se sube al repositorio.
+- El proyecto está preparado para seguir agregando más validaciones y una capa de base de datos más completa.

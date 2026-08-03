@@ -1,0 +1,31 @@
+-- Estructura de la base de datos para reservas de restaurante
+
+CREATE TABLE usuarios (
+  id SERIAL PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  rol VARCHAR(20) NOT NULL DEFAULT 'Cliente',
+  creado_en TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE mesas (
+  id SERIAL PRIMARY KEY,
+  numero INTEGER NOT NULL,
+  capacidad INTEGER NOT NULL,
+  ubicacion VARCHAR(100),
+  disponible BOOLEAN NOT NULL DEFAULT true,
+  eliminado BOOLEAN NOT NULL DEFAULT false,
+  creado_en TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE reservaciones (
+  id SERIAL PRIMARY KEY,
+  usuario_id INTEGER NOT NULL REFERENCES usuarios(id),
+  mesa_id INTEGER NOT NULL REFERENCES mesas(id),
+  fecha DATE NOT NULL,
+  hora TIME NOT NULL,
+  comensales INTEGER NOT NULL,
+  estado VARCHAR(50) NOT NULL DEFAULT 'Pendiente',
+  creado_en TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);

@@ -8,9 +8,13 @@ export const crearReservacion = async (req, res) => {
   }
 
   try {
-    const mesaResult = await query('SELECT id, activa FROM mesas WHERE id = $1', [mesa_id]);
+    const mesaResult = await query('SELECT id, capacidad, activa FROM mesas WHERE id = $1', [mesa_id]);
     if (mesaResult.rows.length === 0 || !mesaResult.rows[0].activa) {
       return res.status(409).json({ message: 'La mesa no está disponible para reservar' });
+    }
+
+    if (Number(comensales) > Number(mesaResult.rows[0].capacidad)) {
+      return res.status(400).json({ message: 'La cantidad de comensales supera la capacidad de la mesa' });
     }
 
     const conflict = await query(
